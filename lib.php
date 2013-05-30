@@ -835,6 +835,8 @@ function questionnaire_print_overview($courses,&$htmlarray) {
     global $USER, $CFG;
     global $DB;
 
+    return;
+
     if (empty($courses) || !is_array($courses) || count($courses) == 0) {
         return array();
     }
