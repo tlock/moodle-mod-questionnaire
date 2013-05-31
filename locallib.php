@@ -942,7 +942,7 @@ class questionnaire {
             $name = $DB->get_field('questionnaire_survey', 'name', array('id' => $this->survey->id));
 
             // trying to change survey name
-            if(trim($name) != trim(stripslashes($sdata->name))) {  // $sdata will already have slashes added to it.
+            if(trim($name) != trim($sdata->name)) {
                 $count = $DB->count_records('questionnaire_survey', array('name' => $sdata->name));
                 if($count != 0) {
                     $errstr = get_string('errnewname', 'questionnaire');  //TODO: notused!
@@ -972,8 +972,6 @@ class questionnaire {
         global $DB;
 
         // clear the sid, clear the creation date, change the name, and clear the status
-        // Since we're copying a data record, addslashes.
-        // 2.0 - don't need to do this now, since its handled by the $DB-> functions.
         $survey = clone($this->survey);
 
         unset($survey->id);
@@ -1005,8 +1003,6 @@ class questionnaire {
             unset($question->id);
             $question->survey_id = $new_sid;
             $question->position = $pos++;
-            $question->name = addslashes($question->name);
-            $question->content = addslashes($question->content);
 
             // copy question to new survey
             if (!($new_qid = $DB->insert_record('questionnaire_question', $question))) {
@@ -1016,8 +1012,6 @@ class questionnaire {
             foreach ($question->choices as $choice) {
                 unset($choice->id);
                 $choice->question_id = $new_qid;
-                $choice->content = addslashes($choice->content);
-                $choice->value = addslashes($choice->value);
                 if (!$DB->insert_record('questionnaire_quest_choice', $choice)) {
                     return(false);
                 }
