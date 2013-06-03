@@ -1041,7 +1041,7 @@ class questionnaire_question {
     private function text_survey_display($data) { // Text Box.
         echo '<input onkeypress="return event.keyCode != 13;" type="text" size="'.$this->length.'" name="q'.$this->id.'"'.
              ($this->precise > 0 ? ' maxlength="'.$this->precise.'"' : '').' value="'.
-             (isset($data->{'q'.$this->id}) ? stripslashes($data->{'q'.$this->id}) : '').
+             (isset($data->{'q'.$this->id}) ? $data->{'q'.$this->id} : '').
              '" id="' . $this->type . $this->id . '" />';
     }
 
@@ -1163,7 +1163,7 @@ class questionnaire_question {
                 $choices['other_'.$cid] = $othertext;
                 $output .= '<input type="text" size="25" name="'.$cid.'" onclick="other_check(name)"';
                 if (isset($data->$cid)) {
-                    $output .= ' value="'.stripslashes($data->$cid) .'"';
+                    $output .= ' value="'.$data->$cid .'"';
                 }
                 $output .= ' />&nbsp;';
             }
@@ -1295,7 +1295,7 @@ class questionnaire_question {
                 echo html_writer::checkbox($name, $value, $checked, format_text($othertext.'', FORMAT_HTML));
                 $othertext = '&nbsp;<input type="text" size="25" name="'.$cid.'" onclick="other_check(name)"';
                 if ($cid) {
-                    $othertext .= ' value="'. (!empty($data->$cid) ? stripslashes($data->$cid) : '') .'"';
+                    $othertext .= ' value="'. (!empty($data->$cid) ? $data->$cid : '') .'"';
                 }
                 $othertext .= ' />';
                 echo $othertext.'<br />';
