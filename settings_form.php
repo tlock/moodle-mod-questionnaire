@@ -121,7 +121,7 @@ class questionnaire_settings_form extends moodleform {
 
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
-        if (!preg_match('/^https?:\/\//i', $data['thanks_page'])) {
+        if (!empty($data['thanks_page']) && !preg_match('/^https?:\/\//i', $data['thanks_page'])) {
             $errors['thanks_page'] = get_string('invalidurl', 'error');
         }
         return $errors;
